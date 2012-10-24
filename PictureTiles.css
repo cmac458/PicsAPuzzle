@@ -5,9 +5,9 @@ body {
   font-size: 14px;
   font-weight: normal;
   line-height: 1.2em;
-  margin: 15px;
   background-image:url('img/blue_striped.gif');
-
+  height:100%;
+  margin:0px;
 }
 
 /* Prevent the text contents of draggable elements from being selectable. */
@@ -19,7 +19,6 @@ body {
 }
 
 .column {
-  
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
   -ms-border-radius: 10px;
@@ -54,17 +53,36 @@ body {
 }
 
 .board {
-width:600px;
+width:500px;
 margin:0px auto;
+height:100%;
+padding-left:40px;
+background-color:rgba(0, 0, 0, 0.4);
+bottom:0;
+top:0;
+padding-top:20px;
+padding-bottom:10px;
 }
 
 .board h1,p {
 color:#ffffff;
 }
 
+.solution{
+margin-left:180px;
+}
+
 .footer{
-position:absolute;
 bottom:0;
-margin-left:100px;
+margin-left:150px;
 color:#ffffff;
 }
+
+.footer a {
+color:#FFFFFF;
+}
+
+.btn {
+margin-top:10px;
+}
+ 
