@@ -1,5 +1,4 @@
 
-
 body {
   font-family: 'Open Sans', sans-serif;
   font-size: 14px;
@@ -19,6 +18,8 @@ body {
 }
 
 .column {
+  background-size:100% 100%;
+  background-repeat:no-repeat;
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
   -ms-border-radius: 10px;
