@@ -70,20 +70,22 @@ class Basics {
       dropTarget.style.backgroundImage = _dragSourceEl.style.backgroundImage;
       _dragSourceEl.style.backgroundImage = bg_image_old;
       
+      checkSolution();
+      
     }
   }
   
   void generateMap(){
     tiles = new Map();
-    tiles[1] = "url(img/pgriffin_tiles_01.png)";
-    tiles[2] = "url(img/pgriffin_tiles_02.png)";
-    tiles[3] = "url(img/pgriffin_tiles_03.png)";
-    tiles[4] = "url(img/pgriffin_tiles_04.png)";
-    tiles[5] = "url(img/pgriffin_tiles_05.png)";
-    tiles[6] = "url(img/pgriffin_tiles_06.png)";
-    tiles[7] = "url(img/pgriffin_tiles_07.png)";
-    tiles[8] = "url(img/pgriffin_tiles_08.png)";
-    tiles[9] = "url(img/pgriffin_tiles_09.png)";  
+    tiles[1] = "url(img/tiles_01.png)";
+    tiles[2] = "url(img/tiles_02.png)";
+    tiles[3] = "url(img/tiles_03.png)";
+    tiles[4] = "url(img/tiles_04.png)";
+    tiles[5] = "url(img/tiles_05.png)";
+    tiles[6] = "url(img/tiles_06.png)";
+    tiles[7] = "url(img/tiles_07.png)";
+    tiles[8] = "url(img/tiles_08.png)";
+    tiles[9] = "url(img/tiles_09.png)";  
   }
   
   String getRandomTile(){
@@ -97,14 +99,38 @@ class Basics {
        if(imgUrl != null){
          tiles.remove(num);
           }
-       
-    print(imgUrl);
     return imgUrl;
   }
+  
+  void checkSolution(){
+    var cols = document.queryAll('#columns .column');
+    var check = 0;
+    for (var col in cols) {
+      if(col.style.backgroundImage.toString().contains(col.id)){
+      check ++;
+      }
+    }
+    if(check == 9){
+      var modal = document.query("#endModal");
+       modal.classes.clear();
+       modal.classes.add("modal show");
+       
+      var closeButton = document.query("#closeFinal");
+      closeButton.on.click.add(_onClickFinal);
+      print("Completed");
+    }
+  }
+  
+  void _onClickFinal(MouseEvent event) {
+    var modal = document.query("#endModal");
+    modal.classes.clear();
+    modal.classes.add("modal hide");
+  }
+  
 }
 
 void main() {
   var basics = new Basics();
   basics.start();
-
+  basics.checkSolution();
 }
