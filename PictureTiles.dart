@@ -114,18 +114,11 @@ class Basics {
       var modal = document.query("#endModal");
        modal.classes.clear();
        modal.classes.add("modal show");
-       
-      var closeButton = document.query("#closeFinal");
-      closeButton.on.click.add(_onClickFinal);
-      print("Completed");
+
     }
   }
   
-  void _onClickFinal(MouseEvent event) {
-    var modal = document.query("#endModal");
-    modal.classes.clear();
-    modal.classes.add("modal hide");
-  }
+
   
 }
 
