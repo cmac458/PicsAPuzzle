@@ -1082,9 +1082,25 @@ $$.Basics = {"": ["_dragSourceEl", "tiles"],
     $.add$1(t2.get$on().get$dragOver(), this.get$_onDragOver());
     $.add$1(t2.get$on().get$dragLeave(), this.get$_onDragLeave());
     $.add$1(t2.get$on().get$drop(), this.get$_onDrop());
+    $.add$1(t2.get$on().get$touchStart(), this.get$_onTouchStart());
+    $.add$1(t2.get$on().get$touchMove(), this.get$_onTouchOver());
+    $.add$1(t2.get$on().get$touchEnd(), this.get$_onTouchEnd());
     t2.get$style().setProperty$3('background-image', this.getRandomTile$0(), '');
   }
 },
+ _onTouchStart$1: function(event$) {
+  $.print('Touch Start');
+  this._onDragStart$1(event$);
+  this._onDragEnter$1(event$);
+},
+ get$_onTouchStart: function() { return new $.BoundClosure(this, '_onTouchStart$1'); },
+ _onTouchEnd$1: function(event$) {
+  $.print('Touch End');
+  this._onDragEnd$1(event$);
+  event$.get$target().get$classes().remove$1('over');
+  this._onDrop$1(event$);
+},
+ get$_onTouchEnd: function() { return new $.BoundClosure(this, '_onTouchEnd$1'); },
  _onDragStart$1: function(event$) {
   var dragTarget = event$.get$target();
   $.add$1(dragTarget.get$classes(), 'moving');
@@ -1108,6 +1124,12 @@ $$.Basics = {"": ["_dragSourceEl", "tiles"],
   event$.get$dataTransfer().set$dropEffect('move');
 },
  get$_onDragOver: function() { return new $.BoundClosure(this, '_onDragOver$1'); },
+ _onTouchOver$1: function(event$) {
+  event$.preventDefault$0();
+  $.print('Leave');
+  event$.get$clipboardData().set$dropEffect('move');
+},
+ get$_onTouchOver: function() { return new $.BoundClosure(this, '_onTouchOver$1'); },
  _onDragLeave$1: function(event$) {
   event$.get$target().get$classes().remove$1('over');
 },
@@ -1352,7 +1374,16 @@ $$._DocumentEventsImpl = {"": ["_ptr"],
  get$reset: function() {
   return this.operator$index$1('reset');
 },
- reset$0: function() { return this.get$reset().call$0(); }
+ reset$0: function() { return this.get$reset().call$0(); },
+ get$touchEnd: function() {
+  return this.operator$index$1('touchend');
+},
+ get$touchMove: function() {
+  return this.operator$index$1('touchmove');
+},
+ get$touchStart: function() {
+  return this.operator$index$1('touchstart');
+}
 };
 
 $$._ChildrenElementList = {"": ["_element?", "_childElements"],
@@ -1730,7 +1761,16 @@ $$._ElementEventsImpl = {"": ["_ptr"],
  get$reset: function() {
   return this.operator$index$1('reset');
 },
- reset$0: function() { return this.get$reset().call$0(); }
+ reset$0: function() { return this.get$reset().call$0(); },
+ get$touchEnd: function() {
+  return this.operator$index$1('touchend');
+},
+ get$touchMove: function() {
+  return this.operator$index$1('touchmove');
+},
+ get$touchStart: function() {
+  return this.operator$index$1('touchstart');
+}
 };
 
 $$._EventSourceEventsImpl = {"": ["_ptr"],
@@ -1843,7 +1883,16 @@ $$._LocalWindowEventsImpl = {"": ["_ptr"],
  get$reset: function() {
   return this.operator$index$1('reset');
 },
- reset$0: function() { return this.get$reset().call$0(); }
+ reset$0: function() { return this.get$reset().call$0(); },
+ get$touchEnd: function() {
+  return this.operator$index$1('touchend');
+},
+ get$touchMove: function() {
+  return this.operator$index$1('touchmove');
+},
+ get$touchStart: function() {
+  return this.operator$index$1('touchstart');
+}
 };
 
 $$._MediaElementEventsImpl = {"": ["_ptr"],
@@ -4201,14 +4250,6 @@ $._IDBDatabaseEventsImpl$ = function(_ptr) {
   return new $._IDBDatabaseEventsImpl(_ptr);
 };
 
-$.addAll = function(receiver, collection) {
-  if (!$.isJsArray(receiver))
-    return receiver.addAll$1(collection);
-  var iterator = $.iterator(collection);
-  for (; iterator.hasNext$0() === true;)
-    $.add$1(receiver, iterator.next$0());
-};
-
 $.allMatches = function(receiver, str) {
   if (!(typeof receiver === 'string'))
     return receiver.allMatches$1(str);
@@ -4230,6 +4271,14 @@ $.JSSyntaxRegExp__globalVersionOf = function(other) {
   var re = $.JSSyntaxRegExp$(t1, other.get$ignoreCase(), t2);
   $.regExpAttachGlobalNative(re);
   return re;
+};
+
+$.addAll = function(receiver, collection) {
+  if (!$.isJsArray(receiver))
+    return receiver.addAll$1(collection);
+  var iterator = $.iterator(collection);
+  for (; iterator.hasNext$0() === true;)
+    $.add$1(receiver, iterator.next$0());
 };
 
 $.ltB = function(a, b) {
@@ -4727,6 +4776,10 @@ $.stringReplaceJS = function(receiver, replacer, to) {
   return receiver.replace(replacer, to.replace('$', '$$$$'));
 };
 
+$.print = function(object) {
+  $.Primitives_printString(object);
+};
+
 $.StackOverflowException$ = function() {
   return new $.StackOverflowException();
 };
@@ -4888,6 +4941,23 @@ $._JsDeserializer$ = function() {
   return new $._JsDeserializer(null);
 };
 
+$.Primitives_printString = function(string) {
+  if (typeof dartPrint == "function") {
+    dartPrint(string);
+    return;
+  }
+  if (typeof window == "object") {
+    if (typeof console == "object")
+      console.log(string);
+    return;
+  }
+  if (typeof print == "function") {
+    print(string);
+    return;
+  }
+  throw 'Unable to print message: ' + String(string);
+};
+
 $.iterator = function(receiver) {
   if ($.isJsArray(receiver))
     return $.ListIterator$(receiver);
@@ -4968,12 +5038,6 @@ $.typeNameInIE = function(obj) {
   return name$;
 };
 
-$.last = function(receiver) {
-  if (!$.isJsArray(receiver))
-    return receiver.last$0();
-  return $.index(receiver, $.sub($.get$length(receiver), 1));
-};
-
 $.Primitives_newList = function(length$) {
   if (length$ == null)
     return new Array();
@@ -5009,6 +5073,12 @@ $._globalState0 = function(val) {
 
 $.window = function() {
   return window;
+};
+
+$.last = function(receiver) {
+  if (!$.isJsArray(receiver))
+    return receiver.last$0();
+  return $.index(receiver, $.sub($.get$length(receiver), 1));
 };
 
 $.HashMapImplementation$ = function() {
@@ -6893,7 +6963,7 @@ $.$defineNativeClass('EventException', {"": ["name?"],
 }
 });
 
-$.$defineNativeClass('Event', {"": [],
+$.$defineNativeClass('Event', {"": ["clipboardData?"],
  get$target: function() {
   return $._convertNativeToDart_EventTarget(this.get$_target());
 },
