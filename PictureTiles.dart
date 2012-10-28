@@ -1,13 +1,15 @@
 
-#import('dart:html');
-#import('dart:math');
+import 'dart:html';
+import 'dart:math';
 
 class Basics {
   Element _dragSourceEl;
   Map tiles;
-  
+
   void start() {
     var cols = document.queryAll('#columns .column');
+
+
     generateMap();
     for (var col in cols) {
       col.on.dragStart.add(_onDragStart);
@@ -16,12 +18,13 @@ class Basics {
       col.on.dragOver.add(_onDragOver);
       col.on.dragLeave.add(_onDragLeave);
       col.on.drop.add(_onDrop);
+
       col.style.setProperty("background-image", getRandomTile(), "");
-    
+
+
+
     }
   }
-  
-
 
   void _onDragStart(MouseEvent event) {
     Element dragTarget = event.target;
@@ -69,12 +72,12 @@ class Basics {
       dropTarget.innerHTML = event.dataTransfer.getData('text/html');
       dropTarget.style.backgroundImage = _dragSourceEl.style.backgroundImage;
       _dragSourceEl.style.backgroundImage = bg_image_old;
-      
+
       checkSolution();
-      
+
     }
   }
-  
+
   void generateMap(){
     tiles = new Map();
     tiles[1] = "url(img/tiles_01.png)";
@@ -85,9 +88,9 @@ class Basics {
     tiles[6] = "url(img/tiles_06.png)";
     tiles[7] = "url(img/tiles_07.png)";
     tiles[8] = "url(img/tiles_08.png)";
-    tiles[9] = "url(img/tiles_09.png)";  
+    tiles[9] = "url(img/tiles_09.png)";
   }
-  
+
   String getRandomTile(){
     var rand = new Random();
       var num = rand.nextInt(10);
@@ -101,25 +104,26 @@ class Basics {
           }
     return imgUrl;
   }
-  
+
   void checkSolution(){
     var cols = document.queryAll('#columns .column');
     var check = 0;
     for (var col in cols) {
       if(col.style.backgroundImage.toString().contains(col.id)){
-      check ++;
+        col.style.backgroundPositionX.
+        check++;
       }
     }
-    if(check == 9){
+    if(check == cols.length){
       var modal = document.query("#endModal");
        modal.classes.clear();
        modal.classes.add("modal show");
 
     }
   }
-  
 
-  
+
+
 }
 
 void main() {

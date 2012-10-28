@@ -9,6 +9,21 @@ body {
   margin:0px;
 }
 
+.header  {
+width:600px;
+margin:0px auto;
+
+}
+.soln{
+width:150px;
+margin:0px auto;
+margin-top:10px;
+}
+.toolbar {
+width:600px;
+margin:0px auto;
+margin-bottom:10px;
+}
 /* Prevent the text contents of draggable elements from being selectable. */
 [draggable] {
   -moz-user-select: none;
@@ -18,7 +33,7 @@ body {
 }
 
 .column {
-  background-size:100% 100%;
+
   background-repeat:no-repeat;
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
@@ -29,18 +44,26 @@ body {
   -ms-box-shadow: inset 0 0 3px #000;
   box-shadow: inset 0 0 3px #000;
   cursor: move;
-  height: 150px;
+ 
   float: left;
-  margin-right: 5px;
+  margin-right: 3px;
   margin:1px;
   text-align: center;
   -webkit-transition: -webkit-transform 0.2s ease-out;
   -moz-transition: -moz-transform 0.2s ease-out;
   -ms-transition: -moz-transform 0.2s ease-out;
   transition: transform 0.2s ease-out;
-  width: 150px;
+ 
+  background-image:url('img/solution.jpg');
 }
 
+.medium{
+height:80px;
+width:80px;
+}
+.basecol{
+hidden:true;
+}
 .column.over {
   border: 2px dashed #000;
 }
@@ -54,10 +77,10 @@ body {
 }
 
 .board {
-width:500px;
+width:600px;
 margin:0px auto;
 height:100%;
-padding-left:40px;
+padding-left:20px;
 background-color:rgba(0, 0, 0, 0.4);
 bottom:0;
 top:0;
