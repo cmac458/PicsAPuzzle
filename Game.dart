@@ -4,18 +4,22 @@ import 'dart:math';
 class Game {
   Element _dragSourceEl;
   Map tiles;
+  Map solution;
   int noOfTiles;
   var tileWidth;
   var tileHeight;
   int rowSize;
-  
+  int score;
+
+
   void initGame(){
-    ButtonElement create = document.query("#createButton");
-    create.on.click.add(createGame);
+  ButtonElement create = document.query('#createButton');
+  create.on.click.add(createGame);
   }
 
   void buildGame(int size, String url){
 
+    score = 0;
     noOfTiles = size * size;
     rowSize = size;
 
@@ -24,7 +28,7 @@ class Game {
     }else{
       url = "url($url)";
     }
-    
+
     DivElement gameBoard = document.query("#columns") ;
 
     var container = document.query('.board');
@@ -39,7 +43,8 @@ class Game {
     var width = getWidthString(tileWidth.toInt());
     var height = getWidthString(tileHeight.toInt());
 
-    generatePictureMap();
+   generatePictureMap();
+
 
     for (int i = 1; i <=  noOfTiles; i ++){
 
@@ -47,6 +52,7 @@ class Game {
       tile.draggable = true;
 
       tile.classes.add("column");
+      tile.id = i.toString();
       //tile.classes.add('medium');
 
       tile.style.setProperty('height',height, '');
@@ -69,10 +75,30 @@ class Game {
 
   }
 
+
+  void checkGame(){
+    int check = 0;
+    var columns = document.queryAll('#columns .column');
+    
+    for (var col in columns){
+      if(col.style.backgroundPosition.toString() == solution[int.parse(col.id)]){
+        print("equals");
+        check ++;
+      }
+    }
+    if(check == noOfTiles){
+      var modal = document.query("#endModal");
+      Element scoreElement = document.query('#noMoves');
+      scoreElement.innerHTML = " $score moves !!";
+      modal.classes.clear();
+      modal.classes.add("modal show");
+    }
+  }
   void generatePictureMap(){
     var currentX = 0;
     var currentY = 0;
     tiles = new Map();
+    solution = new Map();
 
     for (int i = 1; i <=  noOfTiles; i ++){
 
@@ -89,7 +115,7 @@ class Game {
 
       }
       tiles[i]= position;
-
+      solution[i] = position;
     }
   }
 
@@ -173,35 +199,43 @@ class Game {
       dropTarget.style.backgroundPosition = _dragSourceEl.style.backgroundPosition;
       _dragSourceEl.style.backgroundPosition = bg_image_old;
 
-
+      if(dropTarget.style.backgroundPosition == solution[int.parse(dropTarget.id)]){
+        
+      }
+      
+      score ++;
+      checkGame();
+   
     }
   }
-  
+
   void createGame(MouseEvent event){
     InputElement imageUrl = document.query("#urlInput");
     var url = imageUrl.value;
-    
+
     SelectElement selectGrid = document.query("#gridSelect");
     var size =selectGrid.value;
+
     
-    ImageElement solution = document.query("#solutionImg");
-    solution.src = url;
-    
- 
+
+
     if(url == ""){
       url = "default";
+    }else{
+      ImageElement solution = document.query("#solutionImg");
+      solution.src = url;
     }
-    
+
     print(url);
-    
+
     DivElement tiles = document.query("#columns");
     tiles.elements.clear();
-    
+
 
     buildGame(int.parse(size), url);
   }
-  
- 
+
+
 
 }
 

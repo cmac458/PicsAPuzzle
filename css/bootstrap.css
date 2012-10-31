@@ -5010,7 +5010,7 @@ button.close {
     margin: 0;
   }
   .modal.fade.in {
-    top: auto;
+    top: 5%;
   }
 }
 @media (max-width: 480px) {
