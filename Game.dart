@@ -3,6 +3,7 @@ import 'dart:math';
 
 class Game {
   Element _dragSourceEl;
+  Element _dropTarget;
   Map tiles;
   Map solution;
   int noOfTiles;
@@ -68,6 +69,11 @@ class Game {
       tile.on.dragOver.add(_onDragOver);
       tile.on.dragLeave.add(_onDragLeave);
       tile.on.drop.add(_onDrop);
+      
+     tile.on.touchStart.add(_onTouchStart);
+     tile.on.touchMove.add(_onTouchMove);
+     tile.on.touchEnd.add(_onTouchEnd);
+     tile.on.touchLeave.add(_onTouchLeave);
 
       gameBoard.elements.add(tile);
 
@@ -153,6 +159,7 @@ class Game {
 
 
   void _onDragStart(MouseEvent event) {
+    print(event.type);
     Element dragTarget = event.target;
     dragTarget.classes.add('moving');
     _dragSourceEl = dragTarget;
@@ -183,11 +190,57 @@ class Game {
   void _onDragLeave(MouseEvent event) {
     Element dropTarget = event.target;
     dropTarget.classes.remove('over');
+  
+  }
+  
+  void _onTouchStart(TouchEvent event){
+    event.preventDefault();
+    Element dragTarget = event.target;
+    dragTarget.classes.add('moving');
+    _dragSourceEl = dragTarget;
+
+  }
+  
+  void _onTouchEnd(TouchEvent event){
+    event.preventDefault();
+    
+    Element dragTarget = event.target;
+    dragTarget.classes.remove('moving');
+    var cols = document.queryAll('#columns .column');
+    for (var col in cols) {
+      col.classes.remove('over');
+    }
+    
+    DivElement dragSource = event.currentTarget;
+    var idsrc = dragSource.id;
+    print(idsrc);
+    
+   
+    dragSource.innerHTML = _dropTarget.innerHTML;
+    var bg_image_old = _dropTarget.style.backgroundPosition;
+
+    _dropTarget.style.backgroundPosition = dragSource.style.backgroundPosition;
+    dragSource.style.backgroundPosition = bg_image_old;    
+  }
+  
+  void _onTouchMove(TouchEvent event){
+    _dragSourceEl.classes.add('moving');
+    event.preventDefault();
+    Element dropTarget = event.target;
+    dropTarget.classes.add('over');
+    _dropTarget = document.elementFromPoint(event.touches[0].pageX,event.touches[0].pageY);
+   
+  }
+  
+  void _onTouchLeave(TouchEvent event){
+    event.preventDefault();
+    event.stopImmediatePropagation();
+    _dropTarget.classes.remove('over');
+   
   }
 
   void _onDrop(MouseEvent event) {
-    // Stop the browser from redirecting.
-    event.stopPropagation();
+  
 
     // Don't do anything if dropping onto the same column we're dragging.
     Element dropTarget = event.target;
@@ -216,9 +269,6 @@ class Game {
     SelectElement selectGrid = document.query("#gridSelect");
     var size =selectGrid.value;
 
-    
-
-
     if(url == ""){
       url = "default";
     }else{
@@ -242,5 +292,5 @@ class Game {
 void main(){
   Game g = new Game();
   g.initGame();
-  g.buildGame(4,"default");
+  g.buildGame(2,"default");
 }
