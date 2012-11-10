@@ -20,8 +20,9 @@ class Conundrum {
     
     for (var card in cards){
      card.innerHTML = getCharFromWord(targetWord) ;
-     touch.setDragNDropDefault(card);
+     touch.setDragNDropTouch(card);
      card.on.drop.add(_onDropCheck);
+     card.on.touchEnd.add(_onTouchCheck);
     }
   }
   
@@ -77,12 +78,21 @@ class Conundrum {
     }
    if(check.toString() == targetWord){
       score ++;
+      applyScore();
       newCards();
    }
   }
   
+  void applyScore(){
+    var scoreElement = document.query('#scoreNum');
+    scoreElement.innerHTML = score.toString();
+  }
   
-  void _onDropCheck(MouseEvent){
+  void _onDropCheck(MouseEvent event){
+    checkSolution();
+  }
+  
+  void _onTouchCheck(TouchEvent event){
     checkSolution();
   }
  
