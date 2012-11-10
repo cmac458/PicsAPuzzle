@@ -1,7 +1,6 @@
 import 'dart:html';
 import 'dart:math';
-import 'https://raw.github.com/cmac458/dart_touch/master/lib/dart_touch.dart' as touch;
-
+import '/Users/Chris/Documents/Development/Dart-Workspace/dart_touch/lib/dart_touch.dart' as touch;
 class Conundrum {
   
   List words;
