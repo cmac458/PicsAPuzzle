@@ -1,0 +1,96 @@
+@import url(http://fonts.googleapis.com/css?family=Paytone+One);
+
+.game {
+height:150px;
+width:100%;
+margin:5px auto;
+}
+
+.stripes {
+font-family: 'Paytone One', sans-serif;
+font-style: normal;
+font-weight: 400;
+font-size: 26px;
+text-transform: none;
+text-decoration: none;
+letter-spacing: 0em;
+word-spacing: 0em;
+line-height: 1.4;
+text-shadow: 4px 4px 4px #000000;
+background-color:#B03060;
+background-image: -webkit-linear-gradient(0deg, transparent 50%, rgba(255,255,255,.3) 50%);
+background-size: 50px 50px;
+color:#FFA824;
+}
+
+.card {
+background-repeat:no-repeat;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  border: 2px solid #666;
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 3px #000;
+  -ms-box-shadow: inset 0 0 3px #000;
+  box-shadow: inset 0 0 3px #000;
+  cursor: move;
+  float: left;
+  margin:2px;
+  margin-left:5px;
+  margin-top:20px;
+
+  text-align: center;
+  -webkit-transition: -webkit-transform 0.2s ease-out;
+  -moz-transition: -moz-transform 0.2s ease-out;
+  -ms-transition: -moz-transform 0.2s ease-out;
+  transition: transform 0.2s ease-out;
+  width:90px;
+  heigth:90px;
+  font-size:80px;
+  background-color:#4F94CD;
+  color:#ffffff;
+ font-family: Futura, "Trebuchet MS", Arial, sans-serif;
+  font-weight:bold;
+  }
+  
+.board {
+width:70%;
+margin:0px auto;
+height:100%;
+padding-left:20px;
+bottom:0;
+top:0;
+padding-top:60px;
+padding-bottom:10px;
+background-image: -webkit-gradient(radial, 50% 50%, 0, 50% 50%, 121, color-stop(0%, #ffffff), color-stop(100%, rgba(255, 255, 255, 0)));
+background-image: -webkit-radial-gradient(center center, farthest-side, #ffffff 0%, rgba(255, 255, 255, 0) 107%);
+background-image: -moz-radial-gradient(center center, farthest-side, #ffffff 0%, rgba(255, 255, 255, 0) 107%);
+background-image: -ms-radial-gradient(center center, farthest-side, #ffffff 0%, rgba(255, 255, 255, 0) 107%);
+background-image: -o-radial-gradient(center center, farthest-side, #ffffff 0%, rgba(255, 255, 255, 0) 107%);
+background-image: radial-gradient(farthest-side at center center, #ffffff 0%, rgba(255, 255, 255, 0) 107%);background-size:100% 90%;
+background-position:bottom;
+background-repeat:no-repeat;
+}
+
+[draggable] {
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.basecol{
+hidden:true;
+}
+.card.over {
+  border: 2px dashed #000;
+}
+
+.card.moving {
+  opacity: 0.25;
+  -webkit-transform: scale(0.8);
+  -moz-transform: scale(0.8);
+  -ms-transform: scale(0.8);
+  transform: scale(0.8);
+}
+
