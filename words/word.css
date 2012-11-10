@@ -6,6 +6,12 @@ width:100%;
 margin:5px auto;
 }
 
+.info {
+font-size:14px;
+  color:#ffffff;
+   font-family: Futura, "Trebuchet MS", Arial, sans-serif;
+}
+
 .stripes {
 font-family: 'Paytone One', sans-serif;
 font-style: normal;

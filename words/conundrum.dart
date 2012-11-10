@@ -85,7 +85,7 @@ class Conundrum {
   
   void applyScore(){
     var scoreElement = document.query('#scoreNum');
-    scoreElement.innerHTML = score.toString();
+    scoreElement.innerHTML = score.toString();  
   }
   
   void _onDropCheck(MouseEvent event){
