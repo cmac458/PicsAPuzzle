@@ -1,4 +1,4 @@
 name: PicsAPuzzle
 description: Collection of Puzzles to experiment with Dart
-dependencies:
+dev_dependencies:
   browser: any
