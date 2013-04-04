@@ -15,7 +15,7 @@ class Game {
 
   void initGame(){
   ButtonElement create = document.query('#createButton');
-  create.on.click.add(createGame);
+  create.onClick.listen(createGame);
   }
 
   void buildGame(int size, String url){
@@ -63,19 +63,19 @@ class Game {
       tile.style.setProperty('background-size', getPositionString(570,390), '');
       tile.style.setProperty('background-image',url,'');
 
-      tile.on.dragStart.add(_onDragStart);
-      tile.on.dragEnd.add(_onDragEnd);
-      tile.on.dragEnter.add(_onDragEnter);
-      tile.on.dragOver.add(_onDragOver);
-      tile.on.dragLeave.add(_onDragLeave);
-      tile.on.drop.add(_onDrop);
-      
-     tile.on.touchStart.add(_onTouchStart);
-     tile.on.touchMove.add(_onTouchMove);
-     tile.on.touchEnd.add(_onTouchEnd);
-     tile.on.touchLeave.add(_onTouchLeave);
+      tile.onDragStart.listen(_onDragStart);
+      tile.onDragEnd.listen(_onDragEnd);
+      tile.onDragEnter.listen(_onDragEnter);
+      tile.onDragOver.listen(_onDragOver);
+      tile.onDragLeave.listen(_onDragLeave);
+      tile.onDrop.listen(_onDrop);
 
-      gameBoard.elements.add(tile);
+     tile.onTouchStart.listen(_onTouchStart);
+     tile.onTouchMove.listen(_onTouchMove);
+     tile.onTouchEnd.listen(_onTouchEnd);
+     tile.onTouchLeave.listen(_onTouchLeave);
+
+      gameBoard.append(tile);
 
     }
 
@@ -85,7 +85,7 @@ class Game {
   void checkGame(){
     int check = 0;
     var columns = document.queryAll('#columns .column');
-    
+
     for (var col in columns){
       if(col.style.backgroundPosition.toString() == solution[int.parse(col.id)]){
         print("equals");
@@ -95,7 +95,7 @@ class Game {
     if(check == noOfTiles){
       var modal = document.query("#endModal");
       Element scoreElement = document.query('#noMoves');
-      scoreElement.innerHTML = " $score moves !!";
+      scoreElement.innerHtml = " $score moves !!";
       modal.classes.clear();
       modal.classes.add("modal show");
     }
@@ -164,7 +164,7 @@ class Game {
     dragTarget.classes.add('moving');
     _dragSourceEl = dragTarget;
     event.dataTransfer.effectAllowed = 'move';
-    event.dataTransfer.setData('text/html', dragTarget.innerHTML);
+    event.dataTransfer.setData('text/html', dragTarget.innerHtml);
   }
 
   void _onDragEnd(MouseEvent event) {
@@ -190,9 +190,9 @@ class Game {
   void _onDragLeave(MouseEvent event) {
     Element dropTarget = event.target;
     dropTarget.classes.remove('over');
-  
+
   }
-  
+
   void _onTouchStart(TouchEvent event){
     event.preventDefault();
     Element dragTarget = event.target;
@@ -200,65 +200,65 @@ class Game {
     _dragSourceEl = dragTarget;
 
   }
-  
+
   void _onTouchEnd(TouchEvent event){
     event.preventDefault();
-    
+
     Element dragTarget = event.target;
     dragTarget.classes.remove('moving');
     var cols = document.queryAll('#columns .column');
     for (var col in cols) {
       col.classes.remove('over');
     }
-    
+
     DivElement dragSource = event.currentTarget;
     var idsrc = dragSource.id;
     print(idsrc);
-    
-   
-    dragSource.innerHTML = _dropTarget.innerHTML;
+
+
+    dragSource.innerHtml = _dropTarget.innerHtml;
     var bg_image_old = _dropTarget.style.backgroundPosition;
 
     _dropTarget.style.backgroundPosition = dragSource.style.backgroundPosition;
-    dragSource.style.backgroundPosition = bg_image_old;    
+    dragSource.style.backgroundPosition = bg_image_old;
   }
-  
+
   void _onTouchMove(TouchEvent event){
     _dragSourceEl.classes.add('moving');
     event.preventDefault();
     Element dropTarget = event.target;
     dropTarget.classes.add('over');
-    _dropTarget = document.elementFromPoint(event.touches[0].pageX,event.touches[0].pageY);
-   
+    _dropTarget = document.elementFromPoint(event.touches[0].page.x,event.touches[0].page.y);
+
   }
-  
+
   void _onTouchLeave(TouchEvent event){
     event.preventDefault();
     event.stopImmediatePropagation();
     _dropTarget.classes.remove('over');
-   
+
   }
 
   void _onDrop(MouseEvent event) {
-  
+
 
     // Don't do anything if dropping onto the same column we're dragging.
     Element dropTarget = event.target;
     if (_dragSourceEl != dropTarget) {
       // Set the source column's HTML to the HTML of the column we dropped on.
-      _dragSourceEl.innerHTML = dropTarget.innerHTML;
+      _dragSourceEl.innerHtml = dropTarget.innerHtml;
       var bg_image_old = dropTarget.style.backgroundPosition;
-      dropTarget.innerHTML = event.dataTransfer.getData('text/html');
+      dropTarget.innerHtml = event.dataTransfer.getData('text/html');
       dropTarget.style.backgroundPosition = _dragSourceEl.style.backgroundPosition;
       _dragSourceEl.style.backgroundPosition = bg_image_old;
 
       if(dropTarget.style.backgroundPosition == solution[int.parse(dropTarget.id)]){
-        
+
       }
-      
+
       score ++;
       checkGame();
-   
+
     }
   }
 
@@ -279,7 +279,7 @@ class Game {
     print(url);
 
     DivElement tiles = document.query("#columns");
-    tiles.elements.clear();
+    tiles.children.clear();
 
 
     buildGame(int.parse(size), url);

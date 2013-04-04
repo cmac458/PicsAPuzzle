@@ -1,6 +1,4 @@
-name:  PicsAPuzzle
-description:  Collection of Puzzles to experiment with Dart
+name: PicsAPuzzle
+description: Collection of Puzzles to experiment with Dart
 dependencies:
-dart_touch:
-  git: 
-  url: git://github.com/cmac458/DartTouch.git
+  browser: any

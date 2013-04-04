@@ -2,31 +2,30 @@ import 'dart:html';
 import 'dart:math';
 import '/Users/Chris/Documents/Development/Dart-Workspace/dart_touch/lib/dart_touch.dart' as touch;
 class Conundrum {
-  
+
   List words;
   String targetWord;
   List chars;
   int score = 0 ;
-  
+
   void init(){
-    
+
     populateWords();
-    
+
     targetWord = randomWord();
     chars = new List();
-    List tempList = targetWord.splitChars();
+    List tempList = targetWord.split("");
     chars.addAll(tempList);
     var cards = document.queryAll('#cards .card');
-    
+
     for (var card in cards){
-     card.innerHTML = getCharFromWord(targetWord) ;
-     touch.setDragNDropTouch(card);
-     card.on.drop.add(_onDropCheck);
-     card.on.touchEnd.add(_onTouchCheck);
+     card.innerHtml = getCharFromWord(targetWord) ;
+     touch.setDragNDropDefault(card);
+     card.onDrop.listen(_onDropCheck);
     }
   }
-  
-  
+
+
   void populateWords(){
     words = new List();
     words.add("ACCLAIMED");
@@ -35,11 +34,11 @@ class Conundrum {
     words.add("HARDWIRED");
     words.add("PARASITES");
   }
-  
+
   String randomWord(){
     var rand = new Random();
     var num = rand.nextInt(words.length);
-    
+
     var word = words[num];
     while(word == null){
       num = rand.nextInt(words.length);
@@ -50,7 +49,7 @@ class Conundrum {
     }
     return word;
   }
-  
+
   getCharFromWord(String target){
     var rand = new Random();
     var num = rand.nextInt(chars.length);
@@ -61,10 +60,10 @@ class Conundrum {
     }
     if (char != null){
       chars.removeAt(num);
-    }   
+    }
     return char;
   }
-  
+
   void checkSolution(){
     var cards = document.queryAll('#cards .card');
     StringBuffer check = null;
@@ -72,44 +71,35 @@ class Conundrum {
       check = new StringBuffer("");
     }
     for (var card in cards){
-      String inner = card.innerHTML;
-      inner = card.innerHTML.substring(inner.length-1);
-      check.add(inner);
+      String inner = card.innerHtml;
+      inner = card.innerHtml.substring(inner.length-1);
+      check.write(inner);
     }
    if(check.toString() == targetWord){
       score ++;
-      applyScore();
       newCards();
    }
   }
-  
-  void applyScore(){
-    var scoreElement = document.query('#scoreNum');
-    scoreElement.innerHTML = score.toString();  
-  }
-  
-  void _onDropCheck(MouseEvent event){
+
+
+  void _onDropCheck(MouseEvent){
     checkSolution();
   }
-  
-  void _onTouchCheck(TouchEvent event){
-    checkSolution();
-  }
- 
+
   void newCards(){
     targetWord = randomWord();
     chars = new List();
-    List tempList = targetWord.splitChars();
+    List tempList = targetWord.split("");
     chars.addAll(tempList);
-    
+
  var cards = document.queryAll('#cards .card');
-    
+
     for (var card in cards){
-      card.innerHTML = getCharFromWord(targetWord) ;
+      card.innerHtml = getCharFromWord(targetWord) ;
     }
   }
 }
- 
+
 void main(){
   var game = new Conundrum();
   game.init();
